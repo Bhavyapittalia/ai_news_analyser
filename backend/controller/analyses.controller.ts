@@ -1,4 +1,4 @@
-import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 import { ai_analyses } from "../services/gemini.service.ts";
 

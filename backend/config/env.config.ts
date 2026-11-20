@@ -28,9 +28,9 @@ export const ALLENVS = {
     POSTGRES_NAME: stringNarrow("DB_NAME"),
     POSTGRES_PASSWORD: stringNarrow("DB_PASSWORD"),
     POSTGRES_PORT: numberNarrow("DB_PORT"),
-    GEMINI_KEY: stringNarrow("GEMINI_API_KEY"),
-    GPT_KEY: stringNarrow("OPENAI_API_KEY"),
-    PUTER_TOKEN: stringNarrow("PUTER_AUTH_TOKEN")
+    PUTER_TOKEN: stringNarrow("PUTER_AUTH_TOKEN"),
+    PORT: numberNarrow("PORT"),
+    DB_URL: stringNarrow("DB_URL")
 } 
 
 

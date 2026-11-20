@@ -1,6 +1,7 @@
 import type { FastifyInstance } from "fastify";
+import prisma from "../lib/prisma.ts";
 
-export const getAllUser = async (server: FastifyInstance) => {
-    const result = await server.pg.query("select * from users;")
-    return result.rows
+export const getAllUser = async () => {
+    const result = await prisma.users.findMany()
+    return result
 }
