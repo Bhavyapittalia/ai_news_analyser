@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import db from './config/db.ts'
 import { userRoutes } from './routes/user.route.ts' 
 import { news_analyses_route } from './routes/analyses.route.ts'
+import { ALLENVS } from './config/env.config.ts'
 
 dotenv.config()
 
@@ -21,8 +22,8 @@ catch (error) {
 }
 
 try {
-  await server.listen({ port: 5000 })
-  console.log('Server running on http://localhost:5000')
+  const port = await server.listen({ port: ALLENVS.PORT })
+  console.log(`Server running on ${port}`)
 }
 catch (error) {
   console.log("ijdsjfl")
