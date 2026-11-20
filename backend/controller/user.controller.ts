@@ -3,8 +3,7 @@ import { getAllUser } from "../services/user.service.ts";
 
 export const getUsers = async (req: FastifyRequest, reply: FastifyReply) => {
     const result = await getAllUser(req.server)
-    
-    return reply.code(200).send(
+    return reply.code(202).send(
         result
     )
 }
