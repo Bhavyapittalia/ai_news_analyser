@@ -21,8 +21,8 @@ catch (error) {
 }
 
 try {
-  await server.listen({ port: 8000 })
-  console.log('Server running on http://localhost:8000')
+  await server.listen({ port: 5000 })
+  console.log('Server running on http://localhost:5000')
 }
 catch (error) {
   console.log("ijdsjfl")
