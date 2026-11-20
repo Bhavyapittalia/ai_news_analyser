@@ -1,12 +1,10 @@
 import Fastify from 'fastify'
 import dotenv from 'dotenv'
-import db from './config/db.js'
-import { userRoutes } from './routes/user.route.js' 
-import { news_analyses_route } from './routes/analyses.route.js'
-import { envValidation } from './config/check.envs.js'
+import db from './config/db.ts'
+import { userRoutes } from './routes/user.route.ts' 
+import { news_analyses_route } from './routes/analyses.route.ts'
 
 dotenv.config()
-envValidation()
 
 
 const server = Fastify()

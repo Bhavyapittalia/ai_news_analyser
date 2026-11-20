@@ -1,7 +1,10 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
+import { ai_analyses } from "../services/gemini.service.ts";
 
-const headlineSchema = z.object({headline: z.string().min(5).max(500)})
+const headlineSchema = z.object({headline: z.string().min(5).max(1000)})
+
+
 
 export const analysesNews = async (req: FastifyRequest, reply: FastifyReply) => {
     
@@ -11,7 +14,13 @@ export const analysesNews = async (req: FastifyRequest, reply: FastifyReply) => 
         return reply?.code(400).send({ error: "headline is required"})
     }
 
-    console.log("headline schema is: ", parsedData)
-    return reply.send(parsedData)   
+    const result = await ai_analyses(parsedData.headline)
+
+
+    console.log("headline schema is: ", result?.content)
+    return reply.send({
+        headline: parsedData.headline,
+        result
+    })   
 
 }

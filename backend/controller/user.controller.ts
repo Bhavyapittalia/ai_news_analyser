@@ -1,14 +1,20 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { getUser } from "../services/user.service.js";
+import { getAllUser } from "../services/user.service.ts";
 
 export const getUsers = async (req: FastifyRequest, reply: FastifyReply) => {
-    const result = await req.server.pg.query('select * from users;')
-    reply.code(200).send(result)
-    return result.rows
+    const result = await getAllUser(req.server)
+    
+    return reply.code(200).send(
+        result
+    )
 }
 
 export const getAdmin = async (req: FastifyRequest, reply: FastifyReply) => {
-    const result = await getUser(req.server)
+    const result = await getAllUser(req.server)
+    
+    return reply.code(200).send(
+        result
+    )
 }
 
 

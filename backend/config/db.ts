@@ -1,4 +1,4 @@
-import { ALLENVS } from './env.config.js'
+import { ALLENVS } from './env.config.ts'
 import fastify from 'fastify'
 import postgres from '@fastify/postgres'
 import fp from 'fastify-plugin'

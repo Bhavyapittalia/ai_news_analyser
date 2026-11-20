@@ -1,5 +1,5 @@
 import type { FastifyInstance, HookHandlerDoneFunction } from "fastify"
-import { analysesNews } from "../controller/analyses.contorller.js"
+import { analysesNews } from "../controller/analyses.contorller.ts"
 
 export const news_analyses_route = (server: FastifyInstance,opts: any, done: HookHandlerDoneFunction) => {
     server.post('/analyses', (req, reply) => {
