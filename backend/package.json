@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "src/main.js",
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -10,7 +10,8 @@
     "dev": "tsx src/main.ts",
     "typecheck": "tsc --noEmit",
     "seed:init": "tsx ./src/seeds/init.ts",
-    "postinstall": "prisma skills sync || exit 0"
+    "postinstall": "prisma skills sync || exit 0",
+    "contract:emit": "prisma contract emit"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +26,7 @@
     "@heyputer/puter.js": "^2.6.5",
     "@prisma/adapter-pg": "^7.10.1",
     "@prisma/client": "^7.10.1",
+    "@prisma/orm-postgres": "^8.0.0-rc.20",
     "dotenv": "^18.0.10",
     "fastify": "^5.12.8",
     "fastify-plugin": "^6.0.1",
@@ -38,11 +40,12 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@prisma/cli-engine": "^0.10.0",
     "@types/node": "^26.6.6",
     "@types/pg": "^8.23.1",
     "@typescript/native": "npm:typescript@^7.0.2",
     "nodemon": "^3.1.14",
-    "prisma": "^7.10.1",
+    "prisma": "^8.0.0-rc.34",
     "tsx": "^4.23.15",
     "typescript": "^6.0.3"
   }

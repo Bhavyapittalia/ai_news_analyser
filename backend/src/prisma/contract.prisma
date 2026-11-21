@@ -1,0 +1,17 @@
+
+// use prisma-8
+
+model users {
+  user_id  Int     @id @default(autoincrement())
+  name     String(storage: varchar, length: 255)?
+  email    String(storage: varchar, length: 255)?
+}
+
+model news_analyses {
+  news_id           Int    @id(map: "news_anaylses_pkey") @default(autoincrement())
+  event             String(storage: varchar, length: 100)
+  gemini_confidence String(storage: varchar, length: 100)
+  direct_effect     String(storage: varchar, length: 20)
+  direct_impact     String(storage: varchar, length: 255)
+  reasoning         String(storage: varchar, length: 255)
+}
