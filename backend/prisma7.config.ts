@@ -2,7 +2,7 @@
 // npm install --save-dev prisma dotenv
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
-import { ALLENVS } from "./config/env.config.ts";
+import { ALLENVS } from "../backend/src/config/env.config.ts";
 
 export default defineConfig({
   schema: "prisma/schema.prisma",

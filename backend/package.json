@@ -2,12 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/main.js",
+  "main": "main.js",
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start": "node dist/main.js",
-    "dev": "tsx main.ts",
+    "start": "node src/main.ts",
+    "dev": "tsx src/main.ts",
     "typecheck": "tsc --noEmit",
     "seed:init": "tsx ./src/seeds/init.ts",
     "postinstall": "prisma skills sync || exit 0"
