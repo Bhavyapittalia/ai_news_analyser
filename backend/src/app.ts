@@ -3,8 +3,6 @@ import { userRoutes } from './routes/user.route.ts'
 import { news_analyses_route } from './routes/analyses.route.ts'
 import path from 'path'
 import { ALLENVS } from './config/env.config.ts'
-import prisma from './plugins/primsa.ts'
-
 console.log(ALLENVS)
 
 export const buildServer = async ()  => {
