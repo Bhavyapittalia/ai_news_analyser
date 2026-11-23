@@ -1,16 +1,30 @@
 import Fastify from 'fastify'
-import { userRoutes } from './routes/user.route.ts' 
+import { userRoutes } from './routes/user.route.ts'
 import { news_analyses_route } from './routes/analyses.route.ts'
-import path from 'path'
 import { ALLENVS } from './config/env.config.ts'
-console.log(ALLENVS)
+import { APP_NAME, add, type User } from "@repo/shared" //node-monorepo setup
 
-export const buildServer = async ()  => {
-    
+export const buildServer = async () => {
+
     const server = Fastify()
     // await server.register(prisma)
     // await server.register(db)
-    
+
+    //node-monorepo setup testing code
+    console.log(APP_NAME)
+    console.log(add(10, 20));
+
+    //node-monorepo setup testing code
+    const user: User = {
+        id: 1,
+        name: "Dev",
+        email: "dev@example.com"
+    };
+
+    //node-monorepo setup testing code
+    console.log(user)
+    console.log(ALLENVS)
+
     try {
         await server.register(userRoutes)
         await server.register(news_analyses_route)

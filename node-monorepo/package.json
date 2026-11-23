@@ -1,0 +1,15 @@
+{
+  "name": "node-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "dev:shared": "npm run dev -w @repo/shared",
+    "dev:api": "npm run dev -w @repo/api",
+    "start:api": "npm run start -w @repo/api"
+  }
+}
