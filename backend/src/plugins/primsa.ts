@@ -24,3 +24,9 @@
 // //   server.decorate('prisma', prisma);
 // //   server.addHook('onClose', async () => prisma.$disconnect());
 // // });
+// // export default fp(async (server) => {
+// //   const prisma = new PrismaClient();
+// //   await prisma.$connect();
+// //   server.decorate('prisma', prisma);
+// //   server.addHook('onClose', async () => prisma.$disconnect());
+// // });
