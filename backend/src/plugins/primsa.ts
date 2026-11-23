@@ -1,24 +1,26 @@
-import "dotenv/config"
-import { PrismaPg } from "@prisma/adapter-pg"
-import { PrismaClient }  from "@prisma/client"
-import { ALLENVS } from "../config/env.config.ts"
+// import "dotenv/config"
+// import postgres from "@prisma/orm-postgres/runtime"
+// import { contractFromJson } from "@prisma/orm-postgres/static"
+// import contractJson from "../prisma/contract.json" with { type: "json" }
+// import { ALLENVS } from "../config/env.config.ts"
 
-const adapter = new PrismaPg({
-    connectionString: ALLENVS.DB_URL
-})
+// const db = postgres({
+//     contract: contractFromJson(contractJson),
+//     url: ALLENVS.DB_URL,
+// })
 
-const prisma = new PrismaClient({ adapter })
-
-export default prisma
+// export default db
 
 
-// src/plugins/prisma.ts
-// import fp from 'fastify-plugin';
-// import { PrismaClient } from '@prisma/client';
 
-// export default fp(async (server) => {
-//   const prisma = new PrismaClient();
-//   await prisma.$connect();
-//   server.decorate('prisma', prisma);
-//   server.addHook('onClose', async () => prisma.$disconnect());
-// });
+
+// // src/plugins/prisma.ts
+// // import fp from 'fastify-plugin';
+// // import { PrismaClient } from '@prisma/client';
+
+// // export default fp(async (server) => {
+// //   const prisma = new PrismaClient();
+// //   await prisma.$connect();
+// //   server.decorate('prisma', prisma);
+// //   server.addHook('onClose', async () => prisma.$disconnect());
+// // });

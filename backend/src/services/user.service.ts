@@ -1,4 +1,3 @@
-import prisma from "../plugins/primsa.ts";
 import { db } from "../prisma/db.ts";
 
 export const getAllUser = async () => {

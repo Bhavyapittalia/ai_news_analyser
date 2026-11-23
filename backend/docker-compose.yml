@@ -1,0 +1,31 @@
+services: 
+  db: 
+    image: postgres:17-alpine
+    environment: 
+       POSTGRES_USER: app
+       POSTGRES_PASSWORD: secret
+       POSTGRES_DB: news
+    ports: 
+      - 3000:3000
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck: 
+      test: ["CMD", "CMD-SHELL" , "NONE"]
+      interval: 5s
+      timeout: 3s 
+      retries: 10
+
+  backend: 
+    build: .
+    ports: 
+      - 8000:8000
+    env_file: 
+      - .env
+    environment: 
+      DB_URL: postgresql://app:secret@db:3000/news
+    depends_on: 
+      db: 
+        condition: service_healthy
+
+volumes: 
+  pgdata:
