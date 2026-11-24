@@ -1,6 +1,6 @@
 import type { FastifyInstance, FastifyRequest, HookHandlerDoneFunction } from "fastify";
-import { getUsersSchema } from "../schema/user.schema.ts";
-import { getAdmin, getUsers } from "../controller/user.controller.ts";
+import { getUsersSchema } from "../user/user.schema.ts";
+import { getAdmin, getUsers } from "../user/user.controller.ts";
 
 export const userRoutes = (server: FastifyInstance, options: any, done: HookHandlerDoneFunction) => {
   server.get("/users", (req, reply) => {

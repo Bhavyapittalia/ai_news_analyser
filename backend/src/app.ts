@@ -1,6 +1,6 @@
 import Fastify from 'fastify'
-import { userRoutes } from './routes/user.route.ts'
-import { news_analyses_route } from './routes/analyses.route.ts'
+import { userRoutes } from './modules/user/user.route.ts'
+import { news_analyses_route } from './modules/news_analyses/analyses.route.ts'
 import { ALLENVS } from './config/env.config.ts'
 import { APP_NAME, add, type User } from "@repo/shared" //node-monorepo setup
 

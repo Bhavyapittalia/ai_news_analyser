@@ -10,6 +10,7 @@ try {
 }
   catch (error) {
   console.log("ijdsjfl")
+  console.log(error)
   server.log.error(error)
 
   process.exit(1)
