@@ -1,4 +1,4 @@
-import { ALLENVS } from "../config/env.config.ts";
+import { ALLENVS } from "../../config/env.config.ts";
 import {init} from '@heyputer/puter.js/src/init.cjs'
 
 
@@ -38,6 +38,6 @@ export const ai_analyses = async (headline: string) => {
 
     // const db_result = await 
 
-    console.log("normal", response.message)
+    // console.log("normal", response.message)
     return response.message
 }
