@@ -1,24 +1,24 @@
-# Use an official Node.js runtime as the base image
 FROM node:22-alpine
-
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json (or yarn.lock) first to leverage Docker caching
-COPY package*.json ./
-
-# Install dependencies
+# 1. Package files only (so the install step is cached)
+COPY package.json package-lock.json ./
+COPY node-monorepo ./node-monorepo
+WORKDIR /app/node-monorepo
 RUN npm install
-# Copy the rest of the application files
-COPY . .
+RUN npm run build -w @repo/shared
 
+# 2. Install from the root; this creates the workspace links
+WORKDIR /app/backend
+COPY backend/package.json ./
+RUN npm install
+
+# 3. Copy the source code
+COPY backend ./
 RUN npx prisma contract emit
-
-# Compile TypeScript to JavaScript
 RUN npm run build
 
-# Expose the application's port
-EXPOSE 8000
+# 4. Build shared first, then the backend
 
-# Command to start the application
+EXPOSE 8000
 CMD ["npm", "start"]
