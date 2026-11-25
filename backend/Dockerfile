@@ -2,7 +2,6 @@ FROM node:24-alpine
 
 WORKDIR /app
 
-# 1. build the shared package using the monorepo's own toolchain
 COPY node-monorepo ./node-monorepo
 WORKDIR /app/node-monorepo
 RUN npm install
