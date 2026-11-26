@@ -3,6 +3,7 @@ import { userRoutes } from './modules/user/user.route.ts'
 import { news_analyses_route } from './modules/news_analyses/analyses.route.ts'
 import { ALLENVS } from './config/env.config.ts'
 import { APP_NAME, add, type User } from "@repo/shared" //node-monorepo setup
+import errorHandler from './plugins/error.handler.ts'
 
 export const buildServer = async () => {
 
@@ -28,6 +29,9 @@ export const buildServer = async () => {
     try {
         await server.register(userRoutes)
         await server.register(news_analyses_route)
+
+        // this is not middlware but this will run when any controller or route get's error
+        await server.register(errorHandler)
     }
     catch (error) {
         console.log("route error")
