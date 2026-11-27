@@ -1,16 +1,22 @@
+import { AppError } from "../../lib/errors.ts";
 import { db } from "../../prisma/db.ts";
 
 export const getAllUser = async () => {
-    try {
-        console.log("coming...")
-        const result =  db.orm.public.users.all()  
-        console.log("coming...")
+    console.log("coming...")
+    // const result = await db.orm.public.users.all()
+    const result = await db.orm.public.users.all();
+
+    console.log(result)
+
+    if (result.length == 0) {
+        console.log("length is 0")
         return {
-            success: true,
-            result
+            success: false
         }
     }
-    catch (error: any) {
-        console.log("hii" ,error.message)
+    console.log("coming ture...")
+    return {
+        success: true,
+        result
     }
 }
