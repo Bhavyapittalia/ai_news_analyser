@@ -2,16 +2,92 @@
 // use prisma-8
 
 model users {
-  user_id  Int     @id @default(autoincrement())
+  user_id  Int                    @id @default(autoincrement())
   name     String(storage: varchar, length: 255)?
   email    String(storage: varchar, length: 255)?
 }
 
 model news_analyses {
-  news_id           Int    @id(map: "news_anaylses_pkey") @default(autoincrement())
+  news_id           Int           @id(map: "news_anaylses_pkey") @default(autoincrement())
   event             String(storage: varchar, length: 100)
   gemini_confidence String(storage: varchar, length: 100)
   direct_effect     String(storage: varchar, length: 20)
   direct_impact     String(storage: varchar, length: 255)
   reasoning         String(storage: varchar, length: 255)
+}
+
+model source {
+  id               Int                                     @id @default(autoincrement())
+  name             String                                  @unique
+  type             String
+  url              String
+  isActive         Boolean                                 @default(true)
+  lastFetchedAt    DateTime?
+  createdAt        DateTime                                @default(now())
+  articles         article[]
+}
+
+model story {
+  id                      Int         @id @default(autoincrement())
+  headline                String
+  firstSeenAt             DateTime    @default(now())
+  lastSeenAt              DateTime    @default(now())
+  sourceCount             Int         @default(1)
+  consistency             String      @default("single_source")    // confirmed | single_source | conflicting
+  analysisStatus          String      @default("pending")          // pending   | done          | failed 
+  direction               String?                                  // bullish   | bearish
+  impactScore             Int?
+  confidenceScore         Int?
+  primaryInstrument       String?
+  analyzedAt              DateTime?
+  articles                article[]
+  analyses                analysis[]
+
+  @@index([lastSeenAt])
+  @@index([analysisStatus])
+}
+
+model article {
+  id            Int        @id @default(autoincrement())
+  sourceId      Int
+  source        source     @relation(fields: [sourceId], references: [id])
+  storyId       Int?
+  story         story?     @relation(fields: [storyId], references: [id])
+  title         String
+  url           String
+  urlHash       String     @unique
+  content       String
+  publishedAt   DateTime
+  fetchedAt     DateTime   @default(now())
+
+  @@index([publishedAt])
+}
+
+model analysis {
+  id                  Int           @id @default(autoincrement())
+  storyId             Int
+  story               story         @relation(fields: [storyId], references: [id])
+  xFactor             String
+  primaryDirection    String
+  primaryInstrument   String
+  impactScore         Int
+  confidenceScore     Int
+  reasoning           String
+  edgeCases           String[]
+  aiModel             String
+  promptVersion       String
+  createdAt           DateTime       @default(now())
+  scenarios           scenario[]
+
+  @@index([storyId])
+}
+
+model scenario {
+  id               Int          @id @default(autoincrement())
+  analysisId       Int
+  analysis         analysis     @relation(fields: [analysisId], references: [id])
+  instrument       String
+  direction        String
+  probability      Float
+  reasoning        String
 }
