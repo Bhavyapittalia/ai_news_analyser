@@ -3,6 +3,7 @@ import { userRoutes } from './modules/user/user.route.ts'
 import { news_analyses_route } from './modules/news_analyses/analyses.route.ts'
 import { ALLENVS } from './config/env.config.ts'
 import { APP_NAME, add, type User } from "@repo/shared" //node-monorepo setup
+import { healthRoutes } from './modules/health/health.route.ts'
 
 export const buildServer = async () => {
 
@@ -27,13 +28,12 @@ export const buildServer = async () => {
 
     try {
         await server.register(userRoutes)
+        await server.register(healthRoutes)
         await server.register(news_analyses_route)
     }
     catch (error) {
         console.log("route error")
     }
-
-
 
     return server
 }
