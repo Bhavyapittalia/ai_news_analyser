@@ -23,7 +23,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'b85c63341187db6cbd83df1095a3d3bbf1b443ae48c6af8a21c6594a0400fbae'>;
+  StorageHashBase<'5f695fe1c2fd172d9cdbf9a3057ffc55a982cb75e3be917bc4a82183c4cc83b7'>;
 export type ExecutionHash = ExecutionHashBase<string>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
@@ -308,6 +308,37 @@ export type StorageColumnInputTypes = ColumnTypesFromStorage<
 >;
 
 export namespace Models {
+  export type public_analysis = {
+    aiModel: FieldOutputTypes['public']['analysis']['aiModel'];
+    confidenceScore: FieldOutputTypes['public']['analysis']['confidenceScore'];
+    createdAt: FieldOutputTypes['public']['analysis']['createdAt'];
+    edgeCases: FieldOutputTypes['public']['analysis']['edgeCases'];
+    id: FieldOutputTypes['public']['analysis']['id'];
+    impactScore: FieldOutputTypes['public']['analysis']['impactScore'];
+    primaryDirection: FieldOutputTypes['public']['analysis']['primaryDirection'];
+    primaryInstrument: FieldOutputTypes['public']['analysis']['primaryInstrument'];
+    promptVersion: FieldOutputTypes['public']['analysis']['promptVersion'];
+    reasoning: FieldOutputTypes['public']['analysis']['reasoning'];
+    storyId: FieldOutputTypes['public']['analysis']['storyId'];
+    xFactor: FieldOutputTypes['public']['analysis']['xFactor'];
+    scenarios: public_scenario[];
+    story: public_story;
+    readonly [RelationKeys]?: 'scenarios' | 'story';
+  };
+  export type public_article = {
+    content: FieldOutputTypes['public']['article']['content'];
+    fetchedAt: FieldOutputTypes['public']['article']['fetchedAt'];
+    id: FieldOutputTypes['public']['article']['id'];
+    publishedAt: FieldOutputTypes['public']['article']['publishedAt'];
+    sourceId: FieldOutputTypes['public']['article']['sourceId'];
+    storyId: FieldOutputTypes['public']['article']['storyId'];
+    title: FieldOutputTypes['public']['article']['title'];
+    url: FieldOutputTypes['public']['article']['url'];
+    urlHash: FieldOutputTypes['public']['article']['urlHash'];
+    source: public_source;
+    story: public_story | null;
+    readonly [RelationKeys]?: 'source' | 'story';
+  };
   export type public_news_analyses = {
     direct_effect: FieldOutputTypes['public']['news_analyses']['direct_effect'];
     direct_impact: FieldOutputTypes['public']['news_analyses']['direct_impact'];
@@ -316,6 +347,44 @@ export namespace Models {
     news_id: FieldOutputTypes['public']['news_analyses']['news_id'];
     reasoning: FieldOutputTypes['public']['news_analyses']['reasoning'];
     readonly [RelationKeys]?: never;
+  };
+  export type public_scenario = {
+    analysisId: FieldOutputTypes['public']['scenario']['analysisId'];
+    direction: FieldOutputTypes['public']['scenario']['direction'];
+    id: FieldOutputTypes['public']['scenario']['id'];
+    instrument: FieldOutputTypes['public']['scenario']['instrument'];
+    probability: FieldOutputTypes['public']['scenario']['probability'];
+    reasoning: FieldOutputTypes['public']['scenario']['reasoning'];
+    analysis: public_analysis;
+    readonly [RelationKeys]?: 'analysis';
+  };
+  export type public_source = {
+    createdAt: FieldOutputTypes['public']['source']['createdAt'];
+    id: FieldOutputTypes['public']['source']['id'];
+    isActive: FieldOutputTypes['public']['source']['isActive'];
+    lastFetchedAt: FieldOutputTypes['public']['source']['lastFetchedAt'];
+    name: FieldOutputTypes['public']['source']['name'];
+    type: FieldOutputTypes['public']['source']['type'];
+    url: FieldOutputTypes['public']['source']['url'];
+    articles: public_article[];
+    readonly [RelationKeys]?: 'articles';
+  };
+  export type public_story = {
+    analysisStatus: FieldOutputTypes['public']['story']['analysisStatus'];
+    analyzedAt: FieldOutputTypes['public']['story']['analyzedAt'];
+    confidenceScore: FieldOutputTypes['public']['story']['confidenceScore'];
+    consistency: FieldOutputTypes['public']['story']['consistency'];
+    direction: FieldOutputTypes['public']['story']['direction'];
+    firstSeenAt: FieldOutputTypes['public']['story']['firstSeenAt'];
+    headline: FieldOutputTypes['public']['story']['headline'];
+    id: FieldOutputTypes['public']['story']['id'];
+    impactScore: FieldOutputTypes['public']['story']['impactScore'];
+    lastSeenAt: FieldOutputTypes['public']['story']['lastSeenAt'];
+    primaryInstrument: FieldOutputTypes['public']['story']['primaryInstrument'];
+    sourceCount: FieldOutputTypes['public']['story']['sourceCount'];
+    analyses: public_analysis[];
+    articles: public_article[];
+    readonly [RelationKeys]?: 'analyses' | 'articles';
   };
   export type public_users = {
     email: FieldOutputTypes['public']['users']['email'];
@@ -327,7 +396,12 @@ export namespace Models {
 
 export declare const models: {
   public: {
+    analysis: Models.public_analysis;
+    article: Models.public_article;
     news_analyses: Models.public_news_analyses;
+    scenario: Models.public_scenario;
+    source: Models.public_source;
+    story: Models.public_story;
     users: Models.public_users;
   };
 };
@@ -350,6 +424,225 @@ type ContractBase = Omit<
         readonly kind: 'postgres-schema';
         readonly entries: {
           readonly table: {
+            readonly analysis: {
+              columns: {
+                readonly aiModel: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly confidenceScore: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly createdAt: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: false;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly edgeCases: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: { readonly elementNullable: false };
+                };
+                readonly id: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                  readonly many: false;
+                };
+                readonly impactScore: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly primaryDirection: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly primaryInstrument: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly promptVersion: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly reasoning: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly storyId: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly xFactor: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [];
+              indexes: readonly [
+                {
+                  readonly name: 'analysis_storyId_idx_cd452158';
+                  readonly prefix: 'analysis_storyId_idx';
+                  readonly columns: readonly ['storyId'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'analysis';
+                    readonly columns: readonly ['storyId'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'story';
+                    readonly columns: readonly ['id'];
+                  };
+                },
+              ];
+            };
+            readonly article: {
+              columns: {
+                readonly content: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly fetchedAt: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: false;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly id: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                  readonly many: false;
+                };
+                readonly publishedAt: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: false;
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly sourceId: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly storyId: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: true;
+                  readonly many: false;
+                };
+                readonly title: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly url: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly urlHash: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [{ readonly columns: readonly ['urlHash'] }];
+              indexes: readonly [
+                {
+                  readonly name: 'article_publishedAt_idx_36121b91';
+                  readonly prefix: 'article_publishedAt_idx';
+                  readonly columns: readonly ['publishedAt'];
+                  readonly unique: false;
+                },
+                {
+                  readonly name: 'article_sourceId_idx_d92a2571';
+                  readonly prefix: 'article_sourceId_idx';
+                  readonly columns: readonly ['sourceId'];
+                  readonly unique: false;
+                },
+                {
+                  readonly name: 'article_storyId_idx_cd452158';
+                  readonly prefix: 'article_storyId_idx';
+                  readonly columns: readonly ['storyId'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'article';
+                    readonly columns: readonly ['sourceId'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'source';
+                    readonly columns: readonly ['id'];
+                  };
+                },
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'article';
+                    readonly columns: readonly ['storyId'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'story';
+                    readonly columns: readonly ['id'];
+                  };
+                },
+              ];
+            };
             readonly news_analyses: {
               columns: {
                 readonly direct_effect: {
@@ -406,6 +699,249 @@ type ContractBase = Omit<
               indexes: readonly [];
               foreignKeys: readonly [];
             };
+            readonly scenario: {
+              columns: {
+                readonly analysisId: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly direction: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly id: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                  readonly many: false;
+                };
+                readonly instrument: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly probability: {
+                  readonly dataType: 'pg/float8';
+                  readonly codecId: 'pg/float8@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly reasoning: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [];
+              indexes: readonly [
+                {
+                  readonly name: 'scenario_analysisId_idx_11b47406';
+                  readonly prefix: 'scenario_analysisId_idx';
+                  readonly columns: readonly ['analysisId'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'scenario';
+                    readonly columns: readonly ['analysisId'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'analysis';
+                    readonly columns: readonly ['id'];
+                  };
+                },
+              ];
+            };
+            readonly source: {
+              columns: {
+                readonly createdAt: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: false;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly id: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                  readonly many: false;
+                };
+                readonly isActive: {
+                  readonly dataType: 'pg/bool';
+                  readonly codecId: 'pg/bool@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/bool@1', true>;
+                  };
+                  readonly many: false;
+                };
+                readonly lastFetchedAt: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: true;
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly name: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly type: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly url: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [{ readonly columns: readonly ['name'] }];
+              indexes: readonly [];
+              foreignKeys: readonly [];
+            };
+            readonly story: {
+              columns: {
+                readonly analysisStatus: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/text@1', 'pending'>;
+                  };
+                  readonly many: false;
+                };
+                readonly analyzedAt: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: true;
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly confidenceScore: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: true;
+                  readonly many: false;
+                };
+                readonly consistency: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/text@1', 'single_source'>;
+                  };
+                  readonly many: false;
+                };
+                readonly direction: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                  readonly many: false;
+                };
+                readonly firstSeenAt: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: false;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly headline: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly id: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                  readonly many: false;
+                };
+                readonly impactScore: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: true;
+                  readonly many: false;
+                };
+                readonly lastSeenAt: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: false;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly primaryInstrument: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                  readonly many: false;
+                };
+                readonly sourceCount: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/int4@1', 1>;
+                  };
+                  readonly many: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [];
+              indexes: readonly [
+                {
+                  readonly name: 'story_analysisStatus_idx_47d2f905';
+                  readonly prefix: 'story_analysisStatus_idx';
+                  readonly columns: readonly ['analysisStatus'];
+                  readonly unique: false;
+                },
+                {
+                  readonly name: 'story_lastSeenAt_idx_b69845da';
+                  readonly prefix: 'story_lastSeenAt_idx';
+                  readonly columns: readonly ['lastSeenAt'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [];
+            };
             readonly users: {
               columns: {
                 readonly email: {
@@ -449,16 +985,210 @@ type ContractBase = Omit<
   readonly target: 'postgres';
   readonly targetFamily: 'sql';
   readonly roots: {
+    readonly analysis: { readonly namespace: 'public' & NamespaceId; readonly model: 'analysis' };
+    readonly article: { readonly namespace: 'public' & NamespaceId; readonly model: 'article' };
     readonly news_analyses: {
       readonly namespace: 'public' & NamespaceId;
       readonly model: 'news_analyses';
     };
+    readonly scenario: { readonly namespace: 'public' & NamespaceId; readonly model: 'scenario' };
+    readonly source: { readonly namespace: 'public' & NamespaceId; readonly model: 'source' };
+    readonly story: { readonly namespace: 'public' & NamespaceId; readonly model: 'story' };
     readonly users: { readonly namespace: 'public' & NamespaceId; readonly model: 'users' };
   };
   readonly domain: {
     readonly namespaces: {
       readonly public: {
         readonly models: {
+          readonly analysis: {
+            readonly fields: {
+              readonly aiModel: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly confidenceScore: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly createdAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly edgeCases: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+                readonly many: { readonly elementNullable: false };
+              };
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly impactScore: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly primaryDirection: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly primaryInstrument: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly promptVersion: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly reasoning: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly storyId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly xFactor: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+            };
+            readonly relations: {
+              readonly scenarios: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'scenario';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['id'];
+                  readonly targetFields: readonly ['analysisId'];
+                };
+              };
+              readonly story: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'story';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['storyId'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'analysis';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly aiModel: { readonly column: 'aiModel' };
+                readonly confidenceScore: { readonly column: 'confidenceScore' };
+                readonly createdAt: { readonly column: 'createdAt' };
+                readonly edgeCases: { readonly column: 'edgeCases' };
+                readonly id: { readonly column: 'id' };
+                readonly impactScore: { readonly column: 'impactScore' };
+                readonly primaryDirection: { readonly column: 'primaryDirection' };
+                readonly primaryInstrument: { readonly column: 'primaryInstrument' };
+                readonly promptVersion: { readonly column: 'promptVersion' };
+                readonly reasoning: { readonly column: 'reasoning' };
+                readonly storyId: { readonly column: 'storyId' };
+                readonly xFactor: { readonly column: 'xFactor' };
+              };
+            };
+          };
+          readonly article: {
+            readonly fields: {
+              readonly content: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly fetchedAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly publishedAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly sourceId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly storyId: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly title: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly url: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly urlHash: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+            };
+            readonly relations: {
+              readonly source: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'source';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['sourceId'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+              readonly story: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'story';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: true;
+                readonly on: {
+                  readonly localFields: readonly ['storyId'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'article';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly content: { readonly column: 'content' };
+                readonly fetchedAt: { readonly column: 'fetchedAt' };
+                readonly id: { readonly column: 'id' };
+                readonly publishedAt: { readonly column: 'publishedAt' };
+                readonly sourceId: { readonly column: 'sourceId' };
+                readonly storyId: { readonly column: 'storyId' };
+                readonly title: { readonly column: 'title' };
+                readonly url: { readonly column: 'url' };
+                readonly urlHash: { readonly column: 'urlHash' };
+              };
+            };
+          };
           readonly news_analyses: {
             readonly fields: {
               readonly direct_effect: {
@@ -517,6 +1247,232 @@ type ContractBase = Omit<
                 readonly gemini_confidence: { readonly column: 'gemini_confidence' };
                 readonly news_id: { readonly column: 'news_id' };
                 readonly reasoning: { readonly column: 'reasoning' };
+              };
+            };
+          };
+          readonly scenario: {
+            readonly fields: {
+              readonly analysisId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly direction: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly instrument: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly probability: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/float8@1' };
+              };
+              readonly reasoning: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+            };
+            readonly relations: {
+              readonly analysis: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'analysis';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['analysisId'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'scenario';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly analysisId: { readonly column: 'analysisId' };
+                readonly direction: { readonly column: 'direction' };
+                readonly id: { readonly column: 'id' };
+                readonly instrument: { readonly column: 'instrument' };
+                readonly probability: { readonly column: 'probability' };
+                readonly reasoning: { readonly column: 'reasoning' };
+              };
+            };
+          };
+          readonly source: {
+            readonly fields: {
+              readonly createdAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly isActive: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
+              };
+              readonly lastFetchedAt: {
+                readonly nullable: true;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly name: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly type: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly url: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+            };
+            readonly relations: {
+              readonly articles: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'article';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['id'];
+                  readonly targetFields: readonly ['sourceId'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'source';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly createdAt: { readonly column: 'createdAt' };
+                readonly id: { readonly column: 'id' };
+                readonly isActive: { readonly column: 'isActive' };
+                readonly lastFetchedAt: { readonly column: 'lastFetchedAt' };
+                readonly name: { readonly column: 'name' };
+                readonly type: { readonly column: 'type' };
+                readonly url: { readonly column: 'url' };
+              };
+            };
+          };
+          readonly story: {
+            readonly fields: {
+              readonly analysisStatus: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly analyzedAt: {
+                readonly nullable: true;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly confidenceScore: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly consistency: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly direction: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly firstSeenAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly headline: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly impactScore: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly lastSeenAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly primaryInstrument: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly sourceCount: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+            };
+            readonly relations: {
+              readonly analyses: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'analysis';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['id'];
+                  readonly targetFields: readonly ['storyId'];
+                };
+              };
+              readonly articles: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'article';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['id'];
+                  readonly targetFields: readonly ['storyId'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'story';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly analysisStatus: { readonly column: 'analysisStatus' };
+                readonly analyzedAt: { readonly column: 'analyzedAt' };
+                readonly confidenceScore: { readonly column: 'confidenceScore' };
+                readonly consistency: { readonly column: 'consistency' };
+                readonly direction: { readonly column: 'direction' };
+                readonly firstSeenAt: { readonly column: 'firstSeenAt' };
+                readonly headline: { readonly column: 'headline' };
+                readonly id: { readonly column: 'id' };
+                readonly impactScore: { readonly column: 'impactScore' };
+                readonly lastSeenAt: { readonly column: 'lastSeenAt' };
+                readonly primaryInstrument: { readonly column: 'primaryInstrument' };
+                readonly sourceCount: { readonly column: 'sourceCount' };
               };
             };
           };
